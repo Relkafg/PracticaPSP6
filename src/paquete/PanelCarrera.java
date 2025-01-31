@@ -2,12 +2,15 @@ package paquete;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.List;
 
 class PanelCarrera extends JPanel {
     private final List<Globo> globos;
     private Image metaImage;
+    private boolean listenerActivado = false;
 
     public PanelCarrera(List<Globo> globos) {
         this.globos = globos;
@@ -23,10 +26,30 @@ class PanelCarrera extends JPanel {
         }
     }
 
+    // Método para activar el MouseListener
+    public void activarMouseListener() {
+        if (!listenerActivado) {
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    // Verificar si se ha hecho clic sobre un globo
+                    for (Globo globo : globos) {
+                        if (globo.contienePunto(e.getX(), e.getY())) {
+                            globo.pausarMedioSegundo(); // Pausar el globo durante medio segundo
+                            break; // Solo un globo puede ser pausado a la vez
+                        }
+                    }
+                }
+            });
+            listenerActivado = true;
+        }
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
+
         // Dibujar la meta ajustada al ancho del JPanel
         if (metaImage != null) {
             int panelWidth = getWidth();

@@ -27,7 +27,7 @@ public class CarreraGlobos extends JFrame {
         startButton = new JButton("Iniciar Carrera");
         startButton.addActionListener(e -> iniciarCarrera());
 
-     // Usamos un layout null para controlar manualmente las posiciones
+        // Usamos un layout null para controlar manualmente las posiciones
         setLayout(null);
 
         // Añadimos el panel de carrera
@@ -52,7 +52,8 @@ public class CarreraGlobos extends JFrame {
     private void iniciarCarrera() {
         if (!carreraIniciada) {
             carreraIniciada = true;
-            startButton.setVisible(false);
+            startButton.setVisible(false); // Ocultar el botón al iniciar la carrera
+            panelCarrera.activarMouseListener(); // Aquí activamos el MouseListener en el panel
 
             for (int i = 0; i < 4; i++) {
                 Globo globo = new Globo(i, this);
@@ -73,7 +74,6 @@ public class CarreraGlobos extends JFrame {
         panelCarrera.repaint(); // Asegura que la interfaz se actualice correctamente
     }
 
-    
     // Método para mostrar el podio en un JDialog
     private void mostrarPodio() {
         JDialog podioDialog = new JDialog(this, "Resultados", true);
@@ -83,10 +83,10 @@ public class CarreraGlobos extends JFrame {
 
         PanelPodio panelPodio = new PanelPodio(ranking);
         podioDialog.add(panelPodio);
-        
+
         podioDialog.setVisible(true);
     }
-    
+
     public static void main(String[] args) {
         new CarreraGlobos();
     }
