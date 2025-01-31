@@ -2,18 +2,16 @@ package paquete;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CarreraGlobos extends JFrame {
     private List<Globo> globos;
-    private Techo techo;
     private List<Integer> ranking;
     private boolean carreraIniciada = false;
     private boolean carreraTerminada = false;
     private JButton startButton;
+    private PanelCarrera panelCarrera;
 
     public CarreraGlobos() {
         setTitle("Carrera de Globos");
@@ -24,14 +22,30 @@ public class CarreraGlobos extends JFrame {
 
         globos = new ArrayList<>();
         ranking = new ArrayList<>();
-        techo = new Techo();
+        panelCarrera = new PanelCarrera(globos);
 
         startButton = new JButton("Iniciar Carrera");
-        startButton.setBounds(220, 500, 160, 40);
         startButton.addActionListener(e -> iniciarCarrera());
+
+     // Usamos un layout null para controlar manualmente las posiciones
+        setLayout(null);
+
+        // Añadimos el panel de carrera
+        panelCarrera.setBounds(0, 0, getWidth(), getHeight() - 100); // Ajustamos el panel para dejar espacio al botón
+        add(panelCarrera);
+
+        // Ajustamos el tamaño del botón
+        int buttonWidth = 200;
+        int buttonHeight = 50;
+
+        // Centrar el botón en la parte inferior, con un margen
+        int buttonX = (getWidth() - buttonWidth) / 2;
+        int buttonY = getHeight() - buttonHeight - 300; // Margen de 20 píxeles desde la parte inferior
+        startButton.setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
+
+        // Añadir el botón a la ventana
         add(startButton);
 
-        setLayout(null);
         setVisible(true);
     }
 
@@ -45,7 +59,6 @@ public class CarreraGlobos extends JFrame {
                 globos.add(globo);
                 globo.start();
             }
-            techo.start();
         }
     }
 
@@ -56,37 +69,10 @@ public class CarreraGlobos extends JFrame {
         if (ranking.size() == globos.size()) {
             carreraTerminada = true;
         }
-    }
-
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-
-        g.setColor(Color.BLUE);
-        g.fillRect(0, 50, getWidth(), 10);
-
-        for (Globo globo : globos) {
-            globo.dibujar(g);
-        }
-
-        if (carreraTerminada) {
-            mostrarPodio(g);
-        }
-    }
-
-    private void mostrarPodio(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString("Clasificación Final:", 200, 300);
-
-        String[] medallas = {"Oro", "Plata", "Bronce", "4to Lugar"};
-        for (int i = 0; i < ranking.size(); i++) {
-            g.drawString("Globo " + (ranking.get(i)+1) + " - " + medallas[i], 220, 330 + i * 30);
-        }
+        panelCarrera.repaint(); // Asegura que la interfaz se actualice correctamente
     }
 
     public static void main(String[] args) {
         new CarreraGlobos();
     }
 }
-
