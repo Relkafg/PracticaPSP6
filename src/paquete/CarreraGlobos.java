@@ -68,10 +68,25 @@ public class CarreraGlobos extends JFrame {
         }
         if (ranking.size() == globos.size()) {
             carreraTerminada = true;
+            mostrarPodio();
         }
         panelCarrera.repaint(); // Asegura que la interfaz se actualice correctamente
     }
 
+    
+    // Método para mostrar el podio en un JDialog
+    private void mostrarPodio() {
+        JDialog podioDialog = new JDialog(this, "Resultados", true);
+        podioDialog.setSize(400, 300);
+        podioDialog.setLocationRelativeTo(this);
+        podioDialog.setResizable(false);
+
+        PanelPodio panelPodio = new PanelPodio(ranking);
+        podioDialog.add(panelPodio);
+        
+        podioDialog.setVisible(true);
+    }
+    
     public static void main(String[] args) {
         new CarreraGlobos();
     }
