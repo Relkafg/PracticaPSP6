@@ -56,7 +56,7 @@ class Globo extends Thread {
         new Thread(() -> {
             pausado = true;
             System.out.println("Globo " + id + " ha sido clicado y se detendrá medio segundo.");
-            JOptionPane.showMessageDialog(frame, "Globo " + id + " ha sido clicado y se detendrá medio segundo.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(frame, "Globo " + id + " ha sido clicado y se detendrá medio segundo.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
