@@ -41,7 +41,7 @@ class Globo extends Thread {
             }
 
             try {
-                Thread.sleep(20);
+                Thread.sleep(30);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
